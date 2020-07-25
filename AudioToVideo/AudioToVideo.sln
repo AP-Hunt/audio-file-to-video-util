@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioToVideo", "AudioToVideo\AudioToVideo.csproj", "{2FF89199-3352-484D-A62D-B4BEF331B123}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2FF89199-3352-484D-A62D-B4BEF331B123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FF89199-3352-484D-A62D-B4BEF331B123}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FF89199-3352-484D-A62D-B4BEF331B123}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FF89199-3352-484D-A62D-B4BEF331B123}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {88949D6E-375A-4344-AB5D-7B04384C0201}
+	EndGlobalSection
+EndGlobal
