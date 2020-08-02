@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,13 +7,26 @@ using Xabe.FFmpeg.Downloader;
 
 namespace AudioToVideo
 {
+    enum State
+    {
+        Ready,
+        Converting,
+    }
+
     public partial class Form1 : Form
     {
         private CancellationTokenSource _cts;
+        private State _state;
+
         public Form1()
         {
             InitializeComponent();
             _cts = new CancellationTokenSource();
+            _state = State.Ready;
+
+            lblAudoFile.Text = Language.AudioFile;
+            lblCoverArt.Text = Language.CovertArt;
+            btnCreate.Text = Language.Convert;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -73,6 +80,19 @@ namespace AudioToVideo
 
         private async void btnCreate_Click(object sender, EventArgs e)
         {
+            if (_state == State.Ready)
+            {
+                await Convert();
+            }
+            else
+            {
+                CancelConversion();
+            }
+
+        }
+
+        private async Task Convert()
+        {
             DialogResult result = dialogSaveOutput.ShowDialog();
             string outputPath = "";
             if (result == DialogResult.OK)
@@ -116,12 +136,27 @@ namespace AudioToVideo
 
             try
             {
+                _state = State.Converting;
+                btnCreate.Text = Language.Stop;
                 IConversionResult conversionResult = await conversion.Start(_cts.Token);
             }
-            catch(OperationCanceledException){ }
-            catch(Exception ex) {
-                this.txtOutput.AppendText(Environment.NewLine + Environment.NewLine + ex.Message);
+            catch (OperationCanceledException) { }
+            catch (Exception ex)
+            {
+                _state = State.Ready;
+                btnCreate.Text = Language.Convert;
+                txtOutput.AppendText(Environment.NewLine + Environment.NewLine + ex.Message);
             }
+        }
+
+        private void CancelConversion()
+        {
+            _state = State.Ready;
+            btnCreate.Text = Language.Convert;
+            prgProgressBar.Value = 0;
+            txtOutput.AppendText(Environment.NewLine + Environment.NewLine + "CANCELLED");
+
+            CancelAnyTokens();
         }
 
         private void Conversion_OnProgress(object sender, Xabe.FFmpeg.Events.ConversionProgressEventArgs args)
@@ -134,17 +169,18 @@ namespace AudioToVideo
 
         private void Conversion_OnDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
-            if(this.IsDisposed)
+            if (this.IsDisposed)
             {
                 return;
             }
 
-            this.Invoke(new Action(() => {
+            this.Invoke(new Action(() =>
+            {
                 string[] lines = e
                     .Data
                     .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
-                foreach(string l in lines)
+                foreach (string l in lines)
                 {
                     txtOutput.AppendText(l + Environment.NewLine);
                 }
