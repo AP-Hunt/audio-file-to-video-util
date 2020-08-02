@@ -85,6 +85,7 @@ namespace AudioToVideo
             }
 
             txtOutput.Text = "";
+            prgProgressBar.Value = 0;
 
             string audio = dialogOpenAudioFile.FileName;
             string image = dialogOpenCoverArt.FileName;
@@ -111,6 +112,7 @@ namespace AudioToVideo
             txtOutput.AppendText($"ffmpeg {ffmpegParams}{Environment.NewLine}");
 
             conversion.OnDataReceived += Conversion_OnDataReceived;
+            conversion.OnProgress += Conversion_OnProgress;
 
             try
             {
@@ -120,6 +122,14 @@ namespace AudioToVideo
             catch(Exception ex) {
                 this.txtOutput.AppendText(Environment.NewLine + Environment.NewLine + ex.Message);
             }
+        }
+
+        private void Conversion_OnProgress(object sender, Xabe.FFmpeg.Events.ConversionProgressEventArgs args)
+        {
+            this.Invoke(new Action(() =>
+            {
+                this.prgProgressBar.Value = args.Percent;
+            }));
         }
 
         private void Conversion_OnDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)

@@ -41,6 +41,7 @@
             this.btnCreate = new System.Windows.Forms.Button();
             this.txtOutput = new System.Windows.Forms.TextBox();
             this.dialogSaveOutput = new System.Windows.Forms.SaveFileDialog();
+            this.prgProgressBar = new System.Windows.Forms.ProgressBar();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -148,11 +149,19 @@
             // 
             this.dialogSaveOutput.DefaultExt = "mp4";
             // 
+            // prgProgressBar
+            // 
+            this.prgProgressBar.Location = new System.Drawing.Point(12, 334);
+            this.prgProgressBar.Name = "prgProgressBar";
+            this.prgProgressBar.Size = new System.Drawing.Size(720, 23);
+            this.prgProgressBar.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(743, 338);
+            this.ClientSize = new System.Drawing.Size(743, 368);
+            this.Controls.Add(this.prgProgressBar);
             this.Controls.Add(this.txtOutput);
             this.Controls.Add(this.btnCreate);
             this.Controls.Add(this.flowLayoutPanel1);
@@ -185,6 +194,7 @@
         private System.Windows.Forms.Button btnCreate;
         private System.Windows.Forms.TextBox txtOutput;
         private System.Windows.Forms.SaveFileDialog dialogSaveOutput;
+        private System.Windows.Forms.ProgressBar prgProgressBar;
     }
 }
 
